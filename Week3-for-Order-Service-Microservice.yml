@@ -1,0 +1,50 @@
+# Spring Boot Actuator Configuration
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  endpoint:
+    health:
+      show-details: always
+
+
+# Resilience4j Configuration
+resilience4j:
+  retry:
+    configs:       # can create configs with any name and use them in instances
+      default:     # can be any variable in place of default
+        maxRetryAttempts: 3
+        waitDuration: 100ms
+    instances:
+      inventoryRetry:
+        baseConfig: default
+        waitDuration: 200ms
+
+  ratelimiter:
+    instances:
+      inventoryRateLimiter:
+        limitForPeriod: 100
+        limitRefreshPeriod: 1s
+        timeoutDuration: 10ms
+
+  circuitBreaker:
+    instances:
+      inventoryCircuitBreaker:
+        registerHealthIndicator: true              # health for circuit breaker whether it is opened, half opened or closed via actuator
+        slidingWindowSize: 10                      # make observation on last calls to inventory service
+        failureRateThreshold: 50                   # if 50% of calls fail, circuit breaker will open
+        waitDurationInOpenState: 1s               # wait for 10 seconds before going into half open state
+        permittedNumberOfCallsInHalfOpenState: 3   # allow 5 calls in half open state
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 5                    # minimum number of calls to make observation
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        eventConsumerBufferSize: 10
+
+
+
