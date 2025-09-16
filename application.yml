@@ -4,8 +4,13 @@ eureka.instance.prefer-ip-address: true
 eureka.instance.hostname: localhost
 
 
+# actuator config
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+
+
+# zipkin config
+management.tracing.sampling.probability: 1.0
