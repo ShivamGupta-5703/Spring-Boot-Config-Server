@@ -41,7 +41,4 @@ spring:
             - AddRequestHeader=x-custom-header, Shivam
             - name: Authentication
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka
+
