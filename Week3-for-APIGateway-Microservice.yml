@@ -16,7 +16,7 @@ spring:
           enabled: true
       routes:
         - id: Week3-for-Order-Service-Microservice
-          uri: lb://WEEK3-FOR-ORDER-SERVICE-MICROSERVICE
+          uri: ${ORDER_SERVICE_URL:lb://WEEK3-FOR-ORDER-SERVICE-MICROSERVICE}
           predicates:
             - Path=/api/v1/orders/**
           filters:
@@ -33,7 +33,7 @@ spring:
             # /orders/core will be handled by corresponding microservice
             # RedirectTo = 302, http://codingshuttle.com    // to redirect to another url
         - id: Week3-for-Inventory-Service-Microservice
-          uri: lb://WEEK3-FOR-INVENTORY-SERVICE-MICROSERVICE
+          uri: ${INVENTORY_SERVICE_URI:lb://WEEK3-FOR-INVENTORY-SERVICE-MICROSERVICE}
           predicates:
             - Path=/api/v1/inventory/**
           filters:
